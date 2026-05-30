@@ -62,3 +62,53 @@ def play_alarm():
     except Exception as e:
         print(f"[ERROR] Failed to play alarm sound: {e}")
         print("\a") # Fallback to system beep    
+
+def stop_alarm():
+    if not PYGAME_AVAILABLE:
+        return
+    try:
+        if pygame.mixer.music.get_busy():
+            pygame.mixer.music.stop()
+    except Exception:
+        pass
+
+    
+def draw_status_overlay(frame, alarm_active, elapsed, ear_avg):
+    h, w = frame.shape[:2]
+    if alarm_active:
+        color = (0, 0, 220)
+        bg_color = (0, 0, 180)
+        label = "SLEEPING! WAKE UP!"
+        icon = "😴"
+    else:
+        color = (0, 200, 50)
+        bg_color = (0, 150, 40)
+        label = "AWAKE"
+        icon = "👁️"
+    if alarm_active:
+        pulse = int(abs(np.sin(time.time() * 4)) * 80)
+        overlay = frame.copy()
+        cv2.rectangle(overlay, (0, 0), (w, h), (0, 0, 255), -1)
+        cv2.addWeighted(overlay, 0.20 + pulse / 1000, frame, 0.80 - pulse / 1000, 0, frame)
+    pill_w, pill_h = 340, 54
+    pill_x = (w - pill_w) // 2
+    pill_y = 14
+    cv2.rectangle(frame, (pill_x, pill_y), (pill_x + pill_w, pill_y + pill_h), bg_color, -1, cv2.LINE_AA)
+    cv2.rectangle(frame, (pill_x, pill_y), (pill_x + pill_w, pill_y + pill_h), color, 2, cv2.LINE_AA)
+    cv2.putText(frame, label, (pill_x + 20, pill_y + 36), cv2.FONT_HERSHEY_DUPLEX, 0.9, (255, 255, 255), 2, cv2.LINE_AA)
+    dot_x = pill_x - 30
+    dot_y = pill_y + pill_h // 2
+    cv2.circle(frame, (dot_x, dot_y), 14, color, -1, cv2.LINE_AA)
+    cv2.circle(frame, (dot_x, dot_y), 14, (255, 255, 255), 2, cv2.LINE_AA)
+    bar_h = 50
+    bar_y = h - bar_h
+    cv2.rectangle(frame, (0, bar_y), (w, h), (20, 20, 20), -1)
+    ear_text = f"EAR: {ear_avg:.3f}  (thresh: {EAR_THRESHOLD})"
+    closed_text = f"Eyes closed: {elapsed:.1f}s / {EYE_CLOSED_SECONDS}s"
+    cv2.putText(frame, ear_text, (14, bar_y + 20), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (200, 200, 200), 1, cv2.LINE_AA)
+    cv2.putText(frame, closed_text, (14, bar_y + 40), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (200, 200, 200), 1, cv2.LINE_AA)
+    if elapsed > 0 and not alarm_active:
+        progress = min(elapsed / EYE_CLOSED_SECONDS, 1.0)
+        bar_fill_w = int((w - 28) * progress)
+        cv2.rectangle(frame, (14, bar_y + 45), (14 + bar_fill_w, bar_y + 49), (0, 165, 255), -1, cv2.LINE_AA)
+    return frame            
