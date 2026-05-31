@@ -134,7 +134,7 @@ def main():
         min_detection_confidence=0.6,
         min_tracking_confidence=0.6,
     )     
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         print("[ERROR] Cannot open webcam.")
         return
@@ -147,7 +147,7 @@ def main():
     print("  Sleep Detector — press Q to quit")
     print(f"  Alarm fires after {EYE_CLOSED_SECONDS}s of closed eyes")
     if PYGAME_AVAILABLE:
-        print(f"  Looking for alarm sound: {ALARM_SOUND_FILE}")
+        print(f"  Looking for alarm sound: {ALARM_SOUND_PATH}")
     print("=" * 60)
     while True:
         ret, frame = cap.read()
