@@ -2,12 +2,6 @@
 
 A Python-based computer vision project that monitors your webcam feed to detect if you fall asleep at your desk. It calculates the Eye Aspect Ratio (EAR) using AI facial landmarks and triggers an audio alarm to wake you up if your eyes stay closed for too long.
 
-# Sleep Alarm Detector 💤🚨
-
-A real-time computer vision application that monitors your webcam feed to detect if you fall asleep at your desk. It calculates the **Eye Aspect Ratio (EAR)** using AI-powered facial landmark detection and triggers an audio alarm the moment your eyes stay closed for too long.
-
-Built with Python, MediaPipe, and OpenCV.
-
 ---
 
 ## Demo
