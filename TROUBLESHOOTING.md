@@ -152,7 +152,7 @@ Python 3.11.5 ('base': conda)  C:\Users\<YourUsername>\anaconda3\python.exe
 
 **Symptom:**
 ```
-[ERROR] Cannot open webcam.
+[ERROR]
 ```
 
 **Cause:** `cv2.VideoCapture(1)` looks for a second camera (index 1). Most laptops only have one built-in webcam at index 0.
