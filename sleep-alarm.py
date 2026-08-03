@@ -24,11 +24,10 @@ except ImportError:
 
 EAR_THRESHOLD = 0.22
 EYE_CLOSED_SECONDS = 2.5
-# In our previous snippet, we set ALARM_SOUND_PATH = r"C:\Users\dixit\Desktop\...". 
+#  we set ALARM_SOUND_PATH = r". 
 # Because os.path.join is smart, if it sees that the second part is already an absolute path (starting with C:\), 
 # it just ignores the first part.
-# the dynamic pathing we just wrote in play_alarm() will work perfectly 
-# Python will find it automatically! This means if we ever move this folder to a new computer or a different drive, the code won't break.
+
 
 ALARM_SOUND_PATH = r"drama-queen-alarm.mp3" 
 
@@ -41,9 +40,9 @@ def eye_aspect_ratio(landmarks, eye_indices, frame_w, frame_h):
     for idx in eye_indices:
         lm = landmarks[idx]
         pts.append(np.array([lm.x * frame_w, lm.y * frame_h]))
-    A = np.linalg.norm(pts[1] - pts[5]) # Vertical distance between points 2 and 6
-    B = np.linalg.norm(pts[2] - pts[4]) # Vertical distance between points 3 and 5
-    C = np.linalg.norm(pts[0] - pts[3]) # Horizontal distance between points 1 and 4
+    A = np.linalg.norm(pts[1] - pts[5]) 
+    B = np.linalg.norm(pts[2] - pts[4]) 
+    C = np.linalg.norm(pts[0] - pts[3]) 
     ear = (A + B) / (2.0 * C)
     return ear
 
