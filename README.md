@@ -1,4 +1,4 @@
-# Sleep Alarm Detector 💤🚨
+# Doom Sroll Detector 💤🚨
 
 A Python-based computer vision project that monitors your webcam feed to detect if you fall asleep at your desk. It calculates the Eye Aspect Ratio (EAR) using AI facial landmarks and triggers an audio alarm to wake you up if your eyes stay closed for too long.
 
